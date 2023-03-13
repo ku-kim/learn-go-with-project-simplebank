@@ -1,0 +1,11 @@
+version: "1"
+packages:
+  - name: "db"
+    path: "./db/sqlc"
+    queries: "./db/query/"
+    schema: "./db/migration/"
+    engine: "postgresql"
+    emit_json_tags: true
+    emit_prepared_queries: false # 성능 최적화 필요 없으니 일단 off
+    emit_interface: false # 쿼리 인터페이스 생성, 테스트할 떄 용이
+    emit_exact_table_names: false # 테이블 이럼 일체
