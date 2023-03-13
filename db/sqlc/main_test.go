@@ -2,16 +2,12 @@ package db
 
 import (
 	"database/sql"
+	"github.com/ku-kim/learn-go-with-project-simplebank/util"
 	"log"
 	"os"
 	"testing"
 
 	_ "github.com/lib/pq"
-)
-
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
 )
 
 var testQueries *Queries
@@ -22,9 +18,12 @@ https://medium.com/goingogo/why-use-testmain-for-testing-in-go-dafb52b406bc
 m *testing.M는 beforeAll, afterAll 이라고 생각하면 좋음 (m.Run 기준
 */
 func TestMain(m *testing.M) {
+	config, err := util.LoacConfig("../../")
+	if err != nil {
+		log.Fatal("cannot load config: ", err)
+	}
 	log.Println("--- Before Test ---")
-	var err error
-	testDB, err = sql.Open(dbDriver, dbSource)
+	testDB, err = sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
